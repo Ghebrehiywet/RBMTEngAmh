@@ -1,0 +1,69 @@
+﻿@model IEnumerable<RBMTEngAmh.Models.RBTM.TargetWordFeed>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.WordPOSType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WordType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RootWord)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IrregularPluralNoun)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IrregularPastVerb)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IrregularPPVerb)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WordFeeds.RootWord)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.WordPOSType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WordType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RootWord)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IrregularPluralNoun)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IrregularPastVerb)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IrregularPPVerb)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WordFeeds.RootWord)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.TargetLangId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TargetLangId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TargetLangId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using RBMTEngAmh.Models.RBTM;
 
 namespace RBMTEngAmh.Models
 {
@@ -29,5 +30,12 @@ namespace RBMTEngAmh.Models
         {
             return new ApplicationDbContext();
         }
+        public DbSet<Nouns> nouns { get; set; }
+        public DbSet<Verbs> verbs { get; set; }
+
+        public DbSet<WordFeed> SourceWordFeeds { get; set; }
+        public DbSet<TargetWordFeed> TargetWordFeed { get; set; }
+        public DbSet<TranslationRules> TranslationRules { get; set; }
+
     }
 }

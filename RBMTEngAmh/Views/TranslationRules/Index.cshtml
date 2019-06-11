@@ -1,0 +1,39 @@
+﻿@model IEnumerable<RBMTEngAmh.Models.RBTM.TranslationRules>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EnglishRules)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AnharicRules)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EnglishRules)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AnharicRules)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.RuleId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.RuleId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RuleId })
+        </td>
+    </tr>
+}
+
+</table>

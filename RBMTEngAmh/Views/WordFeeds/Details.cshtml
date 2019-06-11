@@ -1,0 +1,66 @@
+﻿@model RBMTEngAmh.Models.RBTM.WordFeed
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>WordFeed</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.WordPOSType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WordPOSType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WordType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WordType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RootWord)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RootWord)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IrregularPluralNoun)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IrregularPluralNoun)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IrregularPastVerb)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IrregularPastVerb)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IrregularPPVerb)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IrregularPPVerb)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,34 @@
+﻿@model RBMTEngAmh.Models.RBTM.TranslationRules
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TranslationRules</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EnglishRules)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EnglishRules)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AnharicRules)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnharicRules)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.RuleId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

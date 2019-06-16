@@ -153,7 +153,7 @@ namespace RBMTEngAmh.Logic
                         {
                             wordPropVerb.IrregularPastVerb = verb.IrregularPastVerb;
                         }
-                        else if (!string.IsNullOrEmpty(verb.IrregularPPVerb) || !string.IsNullOrWhiteSpace(verb.IrregularPPVerb))
+                        if (!string.IsNullOrEmpty(verb.IrregularPPVerb) || !string.IsNullOrWhiteSpace(verb.IrregularPPVerb))
                         {
                             wordPropVerb.IrregularPPVerb = verb.IrregularPPVerb;
                         }
@@ -303,7 +303,7 @@ namespace RBMTEngAmh.Logic
                 }
                 else if (word.ThirpPersonSinglular == GivenWord)
                 {
-                    word.WordRule += " + [S]";
+                    word.WordRule += " + [3S]";
                     word.number = Number.Singular;
                     word.selected = true;
                     break;
@@ -882,111 +882,376 @@ namespace RBMTEngAmh.Logic
 
             #endregion
         }
-        public WordPropNoun AmharicConstructMorphology4Verbs(WordPropNoun wordPropNoun, string GivenWord)
+        public WordPropVerb FilterVerbs(string givenWord)
         {
-            #region Noun Morphology Region
-
-            List<WordPropNoun> lstWordProp = new List<WordPropNoun>();
+            List<WordPropVerb> lstWordPropVerb = new List<WordPropVerb>();
 
             var verbs = this._db.TargetWordFeed.Where(item => item.WordPOSType == WordPOSType.Verb).Include(item => item.WordFeeds).ToList();
             if (verbs != null)
             {
                 foreach (var verb in verbs)
                 {
-                    WordPropNoun wordProp = new WordPropNoun();
-                    wordProp.WordPOSType = WordPOSType.Noun;
-                    wordProp.Gender = verb.Gender;
+                    WordPropVerb wordPropVerb = new WordPropVerb();
+                    wordPropVerb.WordPOSType = WordPOSType.Verb;
+                    wordPropVerb.Gender = verb.Gender;
+                    wordPropVerb.sourceLangValue = verb.WordFeeds?.RootWord;
                     if (verb.WordType == WordType.Irregular)
                     {
-                        wordProp.Type = WordType.Irregular;
-                        wordProp.RootWord = verb.RootWord;
-                        wordProp.sourceLangValue = verb.WordFeeds?.RootWord;
-                        if (!string.IsNullOrEmpty(verb.IrregularPluralNoun) || !string.IsNullOrWhiteSpace(verb.IrregularPluralNoun))
+                        wordPropVerb.Type = WordType.Irregular;
+                        wordPropVerb.RootWord = verb.RootWord;
+                        if (!string.IsNullOrEmpty(verb.IrregularPastVerb) || !string.IsNullOrWhiteSpace(verb.IrregularPastVerb))
                         {
-                            wordProp.PluralForIrregular = verb.IrregularPluralNoun;
+                            wordPropVerb.IrregularPastVerb = verb.IrregularPastVerb;
                         }
+                        if (!string.IsNullOrEmpty(verb.IrregularPPVerb) || !string.IsNullOrWhiteSpace(verb.IrregularPPVerb))
+                        {
+                            wordPropVerb.IrregularPPVerb = verb.IrregularPPVerb;
+                        }
+                        //else if (!string.IsNullOrEmpty(verb.IrregularPluralNoun) || !string.IsNullOrWhiteSpace(verb.IrregularPluralNoun))
+                        //{
+                        //    wordPropVerb.PluralForIrregular = verb.IrregularPluralNoun;
+                        //}
                     }
                     else
                     {
-                        wordProp.Type = WordType.Regular;
-                        wordProp.RootWord = verb.RootWord;
-                        wordProp.sourceLangValue = verb.WordFeeds?.RootWord;
+                        wordPropVerb.Type = WordType.Regular;
+                        wordPropVerb.RootWord = verb.RootWord;
                     }
-                    lstWordProp.Add(wordProp);
+                    lstWordPropVerb.Add(wordPropVerb);
                 }
             }
 
-
-            string[] transValues = { "ዎች", "ኦች" };
+            string[] repPastTensValues = { "ኧዋል", "አለች" };
+            string[] presentParticipleValues = { "እየ" };
+            string[] thridPersonValues = { "" };
             string[] ends = { "Q2", "Q3" };
-            StateMachine<string> machine = new StateMachine<string>("AmharicNounMorphology", "Q0", ends);
-            foreach (var word in lstWordProp)
+
+            StateMachine<string> machine = new StateMachine<string>("EnglishVerbMorphology", "Q0", ends);
+            foreach (var word in lstWordPropVerb)
             {
                 if (word.Type == WordType.Regular) //Regular+Singlular
                 {
                     machine.Add("Q0", "Q1", word.RootWord);
+                    machine.Add("Q0", "Q2", word.RootWord);
 
-                    //  Ends with Sabi'E
-                    if (Constants.SabE.Contains(word.RootWord.Last()))
+                    //  Past tens/ -ed
+                    if (word.Gender == Gender.Male)
                     {
-                        machine.Add("Q1", "Q3", transValues[1]);
-                        var lastWord = word.RootWord.Last() + 1;
-                        word.RootWordPlural = word.RootWord.Substring(0, word.RootWord.Length - 1) + Convert.ToChar(lastWord) + transValues[1]?.Substring(1);
+                        machine.Add("Q1", "Q3", repPastTensValues[0]);
+                        word.RegularPastVerb = word.RootWord + repPastTensValues[0];
+                        word.RegularPPVerb = word.RootWord + repPastTensValues[0];
+                    }
+                    else if (word.Gender == Gender.Female)
+                    {
+                        machine.Add("Q1", "Q3", repPastTensValues[1]);
+                        word.RegularPastVerb = word.RootWord + repPastTensValues[1];
+                        word.RegularPPVerb = word.RootWord + repPastTensValues[1];
                     }
                     else
                     {
-                        machine.Add("Q1", "Q3", transValues[0]);
-                        word.RootWordPlural = word.RootWord + transValues[0];
+                        machine.Add("Q1", "Q3", repPastTensValues[0]);
+                        word.RegularPastVerb = word.RootWord + repPastTensValues[0];
+                        word.RegularPPVerb = word.RootWord + repPastTensValues[0];
                     }
-                }
+                    //word.RegularPastVerb = word.RootWord + repPastTensValues[0];
+                    //word.RegularPPVerb = word.RootWord + repPastTensValues[0];
 
+                    //  TODO:   Pending
+                    //machine.Add("Q2", "Q3", presentParticipleValues[0]);
+                }
                 else if (word.Type == WordType.Irregular)  //Irregular
                 {
-                    //  Singlular
-                    machine.Add("Q0", "Q2", word.RootWord);
-                    word.RootWordPlural = word.PluralForIrregular;
-                    //  Plural
-                    machine.Add("Q0", "Q2", word.PluralForIrregular);
-                }
-                else if (word.Type == WordType.UnChanged)  //Unchanged
-                {
-                    //  Singular
-                    machine.Add("Q0", "Q2", word.RootWord);
-                    word.RootWordPlural = word.RootWord;
-                    word.PluralForIrregular = word.RootWord;
-                    //  Plural
-                    machine.Add("Q0", "Q2", word.RootWord);
+                    //  PastTens + PP
+                    machine.Add("Q0", "Q3", word.RootWord);
+                    word.IrregularPastVerb = word.IrregularPastVerb;
+                    word.IrregularPPVerb = word.IrregularPPVerb;
+                    ////  Plural
+                    //machine.Add("Q0", "Q2", word.PluralForIrregular);
                 }
                 else
                 {
 
                 }
+
+
+            }
+            var result = lstWordPropVerb.Where(item => item.RootWord == givenWord)?.FirstOrDefault();
+            return result;
+        }
+        public WordPropNoun AmharicConstructMorphology4Verbs(WordPropNoun wordPropNoun, string GivenWord)
+        {
+            #region Noun Morphology Region
+
+            List<WordPropVerb> lstWordPropVerb = new List<WordPropVerb>();
+
+            var verbs = this._db.TargetWordFeed.Where(item => item.WordPOSType == WordPOSType.Verb).Include(item => item.WordFeeds).ToList();
+            if (verbs != null)
+            {
+                foreach (var verb in verbs)
+                {
+                    WordPropVerb wordPropVerb = new WordPropVerb();
+                    wordPropVerb.WordPOSType = WordPOSType.Verb;
+                    wordPropVerb.Gender = wordPropNoun.Gender;
+                    wordPropVerb.number = wordPropNoun.number;
+                    wordPropVerb.sourceLangValue = verb.WordFeeds?.RootWord;
+                    if (verb.WordType == WordType.Irregular)
+                    {
+                        wordPropVerb.Type = WordType.Irregular;
+                        wordPropVerb.RootWord = verb.RootWord;
+                        if (!string.IsNullOrEmpty(verb.IrregularPastVerb) || !string.IsNullOrWhiteSpace(verb.IrregularPastVerb))
+                        {
+                            wordPropVerb.IrregularPastVerb = verb.IrregularPastVerb;
+                        }
+                        if (!string.IsNullOrEmpty(verb.IrregularPPVerb) || !string.IsNullOrWhiteSpace(verb.IrregularPPVerb))
+                        {
+                            wordPropVerb.IrregularPPVerb = verb.IrregularPPVerb;
+                        }
+                        //else if (!string.IsNullOrEmpty(verb.IrregularPluralNoun) || !string.IsNullOrWhiteSpace(verb.IrregularPluralNoun))
+                        //{
+                        //    wordPropVerb.PluralForIrregular = verb.IrregularPluralNoun;
+                        //}
+                    }
+                    else
+                    {
+                        wordPropVerb.Type = WordType.Regular;
+                        wordPropVerb.RootWord = verb.RootWord;
+                    }
+                    lstWordPropVerb.Add(wordPropVerb);
+                }
             }
 
-            var englishResult = EnglishMorphology4Nouns(GivenWord);
-            foreach (var word in lstWordProp)
+            string[] repPastTensValues = { "ኧዋል", "አለች" };
+            //string[] presentParticipleValues = { "እየ" };
+            string[] presentParticipleValues = { "አ", "አች", "ኡ" };
+            string[] thridPersonValues = { "ኧዋል", "አለች" };
+            string[] ends = { "Q2", "Q3" };
+
+            StateMachine<string> machine = new StateMachine<string>("EnglishVerbMorphology", "Q0", ends);
+            foreach (var word in lstWordPropVerb)
             {
+                if (word.Type == WordType.Regular) //Regular+Singlular
+                {
+                    machine.Add("Q0", "Q1", word.RootWord);
+                    machine.Add("Q0", "Q2", word.RootWord);
+
+                    //  Past tens/ -ed
+                    if (word.Gender == Gender.Male)
+                    {
+                        machine.Add("Q1", "Q3", repPastTensValues[0]);
+                        word.RegularPastVerb = word.RootWord + repPastTensValues[0];
+                        word.RegularPPVerb = word.RootWord + repPastTensValues[0];
+                    }
+                    else if (word.Gender == Gender.Female)
+                    {
+                        machine.Add("Q1", "Q3", repPastTensValues[1]);
+                        word.RegularPastVerb = word.RootWord + repPastTensValues[1];
+                        word.RegularPPVerb = word.RootWord + repPastTensValues[1];
+                    }
+                    else
+                    {
+                        machine.Add("Q1", "Q3", repPastTensValues[0]);
+                        word.RegularPastVerb = word.RootWord + repPastTensValues[0];
+                        word.RegularPPVerb = word.RootWord + repPastTensValues[0];
+                    }
+
+
+                    //  Plural                    
+                    if (Number.Plural == word.number)
+                    {
+                        machine.Add("Q0", "Q2", repPastTensValues[0]);
+                        machine.Add("Q1", "Q3", repPastTensValues[0]);
+                        word.RootWordPlural = word.RootWord + repPastTensValues[0];
+                    }
+                    //word.RegularPastVerb = word.RootWord + repPastTensValues[0];
+                    //word.RegularPPVerb = word.RootWord + repPastTensValues[0];
+
+                    //  TODO:   Pending
+                    //machine.Add("Q2", "Q3", presentParticipleValues[0]);
+                }
+                else if (word.Type == WordType.Irregular)  //Irregular
+                {
+                    //  PastTens + PP
+                    machine.Add("Q0", "Q3", word.RootWord);
+                    word.IrregularPastVerb = word.IrregularPastVerb;
+                    word.IrregularPPVerb = word.IrregularPPVerb;
+
+                    //  Plural
+                    if (Number.Plural == word.number)
+                    {
+                        machine.Add("Q0", "Q2", repPastTensValues[0]);
+                        machine.Add("Q1", "Q3", repPastTensValues[0]);
+                        word.PluralForIrregular = word.RootWord + repPastTensValues[0];
+                    }
+                }
+                else
+                {
+
+                }
+
+
+                if (word.Gender == Gender.Male)
+                {
+                    word.ThirpPersonSinglular = word.RootWord + repPastTensValues[0];
+                    word.PresentParticiple = word.RootWord + presentParticipleValues[0];
+                }
+                else if (word.Gender == Gender.Female)
+                {
+                    word.ThirpPersonSinglular = word.RootWord + repPastTensValues[1];
+                    word.PresentParticiple = word.RootWord + presentParticipleValues[1];
+                }
+                else
+                {
+                    word.ThirpPersonSinglular = word.RootWord + repPastTensValues[0];
+                    word.PresentParticiple = word.RootWord + presentParticipleValues[2];
+                }
+            }
+
+            var englishResult = EnglishMorphology4Verbs(GivenWord);
+            foreach (var word in lstWordPropVerb)
+            {
+                var result = FilterVerbs(word.RootWord);
                 if (englishResult.RootWord == word?.sourceLangValue)
                 {
-                    if (englishResult.number == Number.Singular)
+                    //if (result.RootWord == word?.sourceLangValue)
                     {
-                        //string[] list = { word.value, "" };
-                        //var machineResponse = machine.Accepts(list);
-                        word.WordRule = word.RootWord + "[N]" + " + [S]";
-                        word.number = Number.Singular;
-                        word.selected = true;
-                        break;
-                    }
-                    else if (englishResult.number == Number.Plural)
-                    {
-                        word.WordRule = word.RootWordPlural + "[N]" + " + [PL]";
-                        word.number = Number.Plural;
-                        word.selected = true;
-                        break;
+                        if (word.number == 0 || word.number == Number.Singular)
+                        {
+                            word.WordRule = word.RootWord + "[V]" + " + [S]";
+                            word.number = Number.Singular;
+                            word.selected = true;
+                            if (wordPropNoun.Gender == Gender.Male)
+                            {
+                                if (wordPropNoun.WordRule.Contains("3S"))
+                                {
+                                    word.Translated = word.ThirpPersonSinglular;
+                                }
+                                else if (wordPropNoun.WordRule.Contains("ING"))
+                                {
+                                    word.Translated = word.PresentParticiple;
+                                }
+                                else if (wordPropNoun.WordRule.Contains("PAST"))
+                                {
+                                    word.Translated = word.Type == WordType.Regular ? word.RegularPastVerb : word.IrregularPastVerb;
+                                }
+                            }
+                            else if (word.Gender == Gender.Female)
+                            {
+                                if (wordPropNoun.WordRule.Contains("3S"))
+                                {
+                                    word.Translated = word.ThirpPersonSinglular;
+                                }
+                                else if (wordPropNoun.WordRule.Contains("ING"))
+                                {
+                                    word.Translated = word.PresentParticiple;
+                                }
+                                else if (wordPropNoun.WordRule.Contains("PAST"))
+                                {
+                                    word.Translated = word.Type == WordType.Regular ? word.RegularPastVerb : word.IrregularPastVerb;
+                                }
+                                else
+                                {
+                                    word.Translated = word.ThirpPersonSinglular;
+                                }
+                            }
+                            else
+                            {
+                                if (wordPropNoun.WordRule.Contains("3S"))
+                                {
+                                    word.Translated = word.ThirpPersonSinglular;
+                                }
+                                else if (wordPropNoun.WordRule.Contains("ING"))
+                                {
+                                    word.Translated = word.PresentParticiple;
+                                }
+                                else if (wordPropNoun.WordRule.Contains("PAST"))
+                                {
+                                    word.Translated = word.Type == WordType.Regular ? word.RegularPastVerb : word.IrregularPastVerb;
+                                }
+                                else
+                                {
+                                    word.Translated = word.ThirpPersonSinglular;
+                                }
+
+                            }
+                            break;
+                        }
+                        else if (word.number == Number.Plural)
+                        {
+                            word.WordRule = word.RootWordPlural + "[V]" + " + [PL]";
+                            word.number = Number.Plural;
+                            word.selected = true;
+                            if (wordPropNoun.Gender == Gender.Male)
+                            {
+                                if (wordPropNoun.WordRule.Contains("3S"))
+                                {
+                                    word.Translated = word.ThirpPersonSinglular;
+                                }
+                                else if (wordPropNoun.WordRule.Contains("ING"))
+                                {
+                                    word.Translated = word.PresentParticiple;
+                                }
+                                else if (wordPropNoun.WordRule.Contains("PAST"))
+                                {
+                                    word.Translated = word.Type == WordType.Regular ? word.RegularPastVerb : word.IrregularPastVerb;
+                                }
+                                else if (wordPropNoun.WordRule.Contains("PL"))
+                                {
+                                    word.Translated = word.Type == WordType.Regular ? word.RootWordPlural : word.PluralForIrregular;
+                                }
+                            }
+                            else if (word.Gender == Gender.Female)
+                            {
+                                if (wordPropNoun.WordRule.Contains("3S"))
+                                {
+                                    word.Translated = word.ThirpPersonSinglular;
+                                }
+                                else if (wordPropNoun.WordRule.Contains("ING"))
+                                {
+                                    word.Translated = word.PresentParticiple;
+                                }
+                                else if (wordPropNoun.WordRule.Contains("PAST"))
+                                {
+                                    word.Translated = word.Type == WordType.Regular ? word.RegularPastVerb : word.IrregularPastVerb;
+                                }
+                                else if (wordPropNoun.WordRule.Contains("PL"))
+                                {
+                                    word.Translated = word.Type == WordType.Regular ? word.RootWordPlural : word.PluralForIrregular;
+                                }
+                                else
+                                {
+                                    word.Translated = word.ThirpPersonSinglular;
+                                }
+                            }
+                            else
+                            {
+                                if (wordPropNoun.WordRule.Contains("3S"))
+                                {
+                                    word.Translated = word.ThirpPersonSinglular;
+                                }
+                                else if (wordPropNoun.WordRule.Contains("ING"))
+                                {
+                                    word.Translated = word.PresentParticiple;
+                                }
+                                else if (wordPropNoun.WordRule.Contains("PAST"))
+                                {
+                                    word.Translated = word.Type == WordType.Regular ? word.RegularPastVerb : word.IrregularPastVerb;
+                                }
+                                else if (wordPropNoun.WordRule.Contains("PL"))
+                                {
+                                    word.Translated = word.Type == WordType.Regular ? word.RootWordPlural : word.PluralForIrregular;
+                                }
+                                else
+                                {
+                                    word.Translated = word.ThirpPersonSinglular;
+                                }
+
+                            }
+                            break;
+                        }
                     }
                 }
             }
-            var selectedWord = lstWordProp.Where(item => item.selected)?.FirstOrDefault();
+            var selectedWord = lstWordPropVerb.Where(item => item.selected)?.FirstOrDefault();
             return selectedWord;
 
             #endregion

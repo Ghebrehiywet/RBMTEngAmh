@@ -35,10 +35,10 @@ namespace RBMTEngAmh.Controllers
             string targetLanguageRule = "";
             List<string> rulesOrder = new List<string>();
             Dictionary<string, TargetWordFeed> targetWordFeed = new Dictionary<string, TargetWordFeed>();
-
+            Gender gender = 0;
             foreach (var word in listOfWords)
             {
-                TargetWordFeed amharicMorphology4Nouns = new TargetWordFeed();
+                TargetWordFeed amharicMorphology = new TargetWordFeed();
 
                 //  English
                 var nouns = morphology.EnglishMorphology4Nouns(word);
@@ -66,7 +66,38 @@ namespace RBMTEngAmh.Controllers
                                             var disjunctions = morphology.EnglishMorphology4Disjunctions(word);
                                             if (disjunctions?.WordRule is null)
                                             {
+                                                //  Unknown word
+                                                disjunctions = new WordPropNoun();
+                                                disjunctions.WordRule = "[" + word + "]";
 
+                                                sourceLanguageRule += "[" + word + "]" + "*";
+                                                targetLanguageRule += "[" + word + "]" + "*";
+
+                                                TargetWordFeed unknownTargetWordFeed = new TargetWordFeed();
+                                                unknownTargetWordFeed.WordRule = disjunctions.WordRule;
+                                                unknownTargetWordFeed.Translated = disjunctions.WordRule;
+                                                unknownTargetWordFeed.RootWord = word;
+                                                //sourceLanguageRule += disjunctions?.WordRule + "*";
+                                                //  Amharic
+                                                //var amharicMorphology4Disjunctions = morphology.AmharicMorphology4Disjunctions(disjunctions?.RootWord);
+                                                //amharicMorphology4Disjunctions.WordRule = ((amharicMorphology4Disjunctions != null) ? disjunctions.WordRule.Replace(disjunctions.RootWord, amharicMorphology4Disjunctions?.RootWord) : disjunctions.WordRule);
+                                                //targetLanguageRule += amharicMorphology4Disjunctions.WordRule + "*";
+
+                                                var indxofOpening = disjunctions.WordRule.IndexOf('[');
+                                                var indxofClosing = disjunctions.WordRule.IndexOf(']');
+                                                if (indxofClosing != -1 && indxofOpening != -1)
+                                                {
+                                                    var pos = disjunctions.WordRule.Substring(indxofOpening, (indxofClosing - indxofOpening) + 1);
+                                                    int index = 0;
+                                                    string posString = pos;
+                                                    while (rulesOrder.Contains(pos))
+                                                    {
+                                                        ++index;
+                                                        pos = posString.Insert(posString.Length - 1, index.ToString());
+                                                    };
+                                                    rulesOrder.Add(pos);
+                                                    targetWordFeed.Add(pos, unknownTargetWordFeed);
+                                                }
                                             }
                                             else
                                             {
@@ -224,29 +255,34 @@ namespace RBMTEngAmh.Controllers
                         sourceLanguageRule += verbs?.WordRule + "*";
                         //  Amharic
                         var amharicMorphology4Verbs = morphology.AmharicMorphology4Verbs(verbs?.RootWord);
-
+                        verbs.Gender = (gender != 0) ? gender : verbs.Gender; ;
                         if (verbs.number == Number.Plural)
                         {
-                            if (nouns.Type == WordType.Regular)
+                            if (verbs.Type == WordType.Regular)
                             {
-                                var wordPropReg = morphology.AmharicConstructMorphology4Verbs(nouns, nouns.RootWordPlural);
-                                amharicMorphology4Nouns.Translated = nouns.RootWordPlural = wordPropReg?.RootWordPlural;
-                                amharicMorphology4Nouns.RootWord = wordPropReg?.RootWordPlural;
+                                var wordPropReg = morphology.AmharicConstructMorphology4Verbs(verbs, word);
+                                amharicMorphology.Translated = verbs.RootWordPlural = wordPropReg?.RootWordPlural;
+                                amharicMorphology.RootWord = wordPropReg?.RootWordPlural;
                             }
                             else
                             {
-                                var wordPropIrReg = morphology.AmharicConstructMorphology4Verbs(nouns, nouns.PluralForIrregular);
-                                amharicMorphology4Nouns.Translated = nouns.PluralForIrregular = wordPropIrReg?.RootWordPlural;
-                                amharicMorphology4Nouns.RootWord = wordPropIrReg?.RootWordPlural;
+                                var wordPropIrReg = morphology.AmharicConstructMorphology4Verbs(verbs, word);
+                                amharicMorphology.Translated = wordPropIrReg?.Translated;
+                                amharicMorphology.RootWord = wordPropIrReg?.RootWord;
                             }
                         }
                         else
                         {
-                            amharicMorphology4Verbs.Translated = amharicMorphology4Verbs.RootWord;
+                            var wordPropIrReg = morphology.AmharicConstructMorphology4Verbs(verbs, word);
+                            amharicMorphology.Translated = wordPropIrReg?.Translated;
+                            amharicMorphology.RootWord = wordPropIrReg?.RootWord;
+
+                            //amharicMorphology.Translated = amharicMorphology4Verbs.RootWord;
                         }
 
                         amharicMorphology4Verbs.WordRule = ((amharicMorphology4Verbs != null) ? verbs.WordRule.Replace(verbs.RootWord, amharicMorphology4Verbs?.RootWord ?? "") : verbs.WordRule);
                         targetLanguageRule += amharicMorphology4Verbs.WordRule + "*";
+                        amharicMorphology.WordRule = amharicMorphology4Verbs.WordRule;
 
                         var indxofOpening = verbs.WordRule.IndexOf('[');
                         var indxofClosing = verbs.WordRule.IndexOf(']');
@@ -261,39 +297,40 @@ namespace RBMTEngAmh.Controllers
                                 pos = posString.Insert(posString.Length - 1, index.ToString());
                             };
                             rulesOrder.Add(pos);
-                            targetWordFeed.Add(pos, amharicMorphology4Verbs);
+                            targetWordFeed.Add(pos, amharicMorphology);
                         }
                     }
 
                 }
                 else
                 {
+                    gender = nouns.Gender;
                     sourceLanguageRule += nouns.WordRule + "*";
                     //  Amharic
-                    amharicMorphology4Nouns = morphology.AmharicMorphology4Nouns(nouns.RootWord);
+                    amharicMorphology = morphology.AmharicMorphology4Nouns(nouns.RootWord);
 
                     if (nouns.number == Number.Plural)
                     {
                         if (nouns.Type == WordType.Regular)
                         {
                             var wordPropReg = morphology.AmharicConstructMorphology4Nouns(nouns, nouns.RootWordPlural);
-                            amharicMorphology4Nouns.Translated = nouns.RootWordPlural = wordPropReg?.RootWordPlural;
-                            amharicMorphology4Nouns.RootWord = wordPropReg.RootWordPlural;
+                            amharicMorphology.Translated = nouns.RootWordPlural = wordPropReg?.RootWordPlural;
+                            amharicMorphology.RootWord = wordPropReg.RootWordPlural;
                         }
                         else
                         {
                             var wordPropIrReg = morphology.AmharicConstructMorphology4Nouns(nouns, nouns.PluralForIrregular);
-                            amharicMorphology4Nouns.Translated = nouns.PluralForIrregular = wordPropIrReg.RootWordPlural;
-                            amharicMorphology4Nouns.RootWord = wordPropIrReg.RootWordPlural;
+                            amharicMorphology.Translated = nouns.PluralForIrregular = wordPropIrReg.RootWordPlural;
+                            amharicMorphology.RootWord = wordPropIrReg.RootWordPlural;
                         }
                     }
                     else
                     {
-                        amharicMorphology4Nouns.Translated = amharicMorphology4Nouns.RootWord;
+                        amharicMorphology.Translated = amharicMorphology.RootWord;
                     }
 
-                    amharicMorphology4Nouns.WordRule = (nouns.WordRule.Replace(nouns.RootWord, amharicMorphology4Nouns?.RootWord));
-                    targetLanguageRule += amharicMorphology4Nouns.WordRule + "*";
+                    amharicMorphology.WordRule = (nouns.WordRule.Replace(nouns.RootWord, amharicMorphology?.RootWord));
+                    targetLanguageRule += amharicMorphology.WordRule + "*";
 
                     var indxofOpening = nouns.WordRule.IndexOf('[');
                     var indxofClosing = nouns.WordRule.IndexOf(']');
@@ -308,7 +345,7 @@ namespace RBMTEngAmh.Controllers
                             pos = posString.Insert(posString.Length - 1, index.ToString());
                         };
                         rulesOrder.Add(pos);
-                        targetWordFeed.Add(pos, amharicMorphology4Nouns);
+                        targetWordFeed.Add(pos, amharicMorphology);
                     }
                 }
             }
@@ -327,8 +364,8 @@ namespace RBMTEngAmh.Controllers
                 foreach (var rule in rulesSplit)
                 {
                     TargetWordFeed wordFeed = targetWordFeed.Where(item => item.Key == rule.Trim()).FirstOrDefault().Value;
-                    reOrderedSentences += wordFeed.WordRule + "*";
-                    translatedSentences += (wordFeed.Translated ?? wordFeed.WordRule) + '*';
+                    reOrderedSentences += wordFeed?.WordRule + "*";
+                    translatedSentences += (wordFeed?.Translated ?? wordFeed?.WordRule) + '*';
                 }
             }
 

@@ -100,6 +100,7 @@ namespace RBMTEngAmh.Logic
         public string PluralForIrregular { get; set; }
         public WordPOSType WordPOSType { get; set; }
         public Gender Gender { get; set; }
+        public string Translated { get; set; }
     }
     public class WordPropVerb : WordPropNoun
     {

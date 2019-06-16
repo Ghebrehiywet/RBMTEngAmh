@@ -11,9 +11,13 @@ namespace RBMTEngAmh.Controllers
 {
     public class MorphimExtractionController : Controller
     {
-        Morphology morphology = new Morphology();
+        Morphology morphology;
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public MorphimExtractionController()
+        {
+            morphology = new Morphology(db);
+        }
         // GET: MorphimExtraction
         public ActionResult Index()
         {
@@ -27,16 +31,26 @@ namespace RBMTEngAmh.Controllers
         public ActionResult Index(string GivenWord, int? Language, FormCollection collection)
         {
             GivenWord = GivenWord.Trim();
-            if (Language == 1)
+            //if (Language == 1)
+            //{
+            //    var nounmorphology = morphology.EnglishMorphology4Nouns(GivenWord);
+            //    ViewBag.Morphology4Nouns = nounmorphology;
+            //}
+            //if (Language == 2)
+            //{
+            //    var nounmorphology = morphology.xAmharicMorphology4Nouns(db, GivenWord);
+            //    ViewBag.Morphology4Nouns = nounmorphology;
+            //}
+            //if (Language == 1)
             {
-                var nounmorphology = morphology.EnglishMorphology4Nouns(db, GivenWord);
+                var nounmorphology = morphology.EnglishMorphology4Verbs(GivenWord);
                 ViewBag.Morphology4Nouns = nounmorphology;
             }
-            if (Language == 2)
-            {
-                var nounmorphology = morphology.xAmharicMorphology4Nouns(db, GivenWord);
-                ViewBag.Morphology4Nouns = nounmorphology;
-            }
+            //if (Language == 2)
+            //{
+            //    var nounmorphology = morphology.AmharicMorphology4Verbs(GivenWord);
+            //    ViewBag.Morphology4Nouns = nounmorphology;
+            //}
 
             ViewBag.GivenWord = GivenWord;
             return View();

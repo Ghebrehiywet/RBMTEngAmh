@@ -28,7 +28,6 @@ namespace RBMTEngAmh.Models.RBTM
         [ForeignKey("WordFeeds")]
         public long sourceId { get; set; }
         virtual public WordFeed WordFeeds { get; set; }
-
     }
     public class WordFeedObj
     {
@@ -37,6 +36,9 @@ namespace RBMTEngAmh.Models.RBTM
         public WordPOSType WordPOSType { get; set; }
         [Required]
         public WordType WordType { get; set; }
+        [Required]
+        public Gender Gender { get; set; }
+
         [Required]
         [DisplayName("Root Word")]
         public string RootWord { get; set; }
@@ -51,5 +53,11 @@ namespace RBMTEngAmh.Models.RBTM
         public string IrregularPPVerb { get; set; }
 
         //  Adjective
+
+        [NotMapped]
+        public string WordRule { get; set; }
+        [NotMapped]
+        public string Translated { get; internal set; }
+
     }
 }

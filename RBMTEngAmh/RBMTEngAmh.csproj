@@ -202,12 +202,66 @@
     </Compile>
     <Compile Include="Logic\Morphologys.cs" />
     <Compile Include="Logic\StateMachine.cs" />
+    <Compile Include="Migrations\201905311053048_InitialCreate.cs" />
+    <Compile Include="Migrations\201905311053048_InitialCreate.designer.cs">
+      <DependentUpon>201905311053048_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906091014005_migrant.cs" />
+    <Compile Include="Migrations\201906091014005_migrant.designer.cs">
+      <DependentUpon>201906091014005_migrant.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906091019494_migrant1.cs" />
+    <Compile Include="Migrations\201906091019494_migrant1.designer.cs">
+      <DependentUpon>201906091019494_migrant1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906091031477_migrant12.cs" />
+    <Compile Include="Migrations\201906091031477_migrant12.designer.cs">
+      <DependentUpon>201906091031477_migrant12.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906110855254_migrant3.cs" />
+    <Compile Include="Migrations\201906110855254_migrant3.designer.cs">
+      <DependentUpon>201906110855254_migrant3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906110914439_migrant31.cs" />
+    <Compile Include="Migrations\201906110914439_migrant31.designer.cs">
+      <DependentUpon>201906110914439_migrant31.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906111038396_migrant4.cs" />
+    <Compile Include="Migrations\201906111038396_migrant4.designer.cs">
+      <DependentUpon>201906111038396_migrant4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906111049015_migrant41.cs" />
+    <Compile Include="Migrations\201906111049015_migrant41.designer.cs">
+      <DependentUpon>201906111049015_migrant41.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906111049237_migrant42.cs" />
+    <Compile Include="Migrations\201906111049237_migrant42.designer.cs">
+      <DependentUpon>201906111049237_migrant42.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906111247222_migrant43.cs" />
+    <Compile Include="Migrations\201906111247222_migrant43.designer.cs">
+      <DependentUpon>201906111247222_migrant43.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906111247549_migrant44.cs" />
+    <Compile Include="Migrations\201906111247549_migrant44.designer.cs">
+      <DependentUpon>201906111247549_migrant44.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906121527300_migrant2.cs" />
+    <Compile Include="Migrations\201906121527300_migrant2.Designer.cs">
+      <DependentUpon>201906121527300_migrant2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906121528108_migrant5.cs" />
+    <Compile Include="Migrations\201906121528108_migrant5.Designer.cs">
+      <DependentUpon>201906121528108_migrant5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\RBTM\Constants.cs" />
     <Compile Include="Models\RBTM\Enumerables.cs" />
     <Compile Include="Models\RBTM\Nouns.cs" />
+    <Compile Include="Models\RBTM\TargetWordFeedDictionary.cs" />
     <Compile Include="Models\RBTM\TranslationRules.cs" />
     <Compile Include="Models\RBTM\Verbs.cs" />
     <Compile Include="Models\RBTM\WordFeed.cs" />
@@ -322,6 +376,47 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201905311053048_InitialCreate.resx">
+      <DependentUpon>201905311053048_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906091014005_migrant.resx">
+      <DependentUpon>201906091014005_migrant.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906091019494_migrant1.resx">
+      <DependentUpon>201906091019494_migrant1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906091031477_migrant12.resx">
+      <DependentUpon>201906091031477_migrant12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906110855254_migrant3.resx">
+      <DependentUpon>201906110855254_migrant3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906110914439_migrant31.resx">
+      <DependentUpon>201906110914439_migrant31.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906111038396_migrant4.resx">
+      <DependentUpon>201906111038396_migrant4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906111049015_migrant41.resx">
+      <DependentUpon>201906111049015_migrant41.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906111049237_migrant42.resx">
+      <DependentUpon>201906111049237_migrant42.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906111247222_migrant43.resx">
+      <DependentUpon>201906111247222_migrant43.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906111247549_migrant44.resx">
+      <DependentUpon>201906111247549_migrant44.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906121527300_migrant2.resx">
+      <DependentUpon>201906121527300_migrant2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906121528108_migrant5.resx">
+      <DependentUpon>201906121528108_migrant5.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -61,7 +61,7 @@ namespace RBMTEngAmh.Logic
                     {
                         state = transitions[state][value];
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
@@ -88,17 +88,29 @@ namespace RBMTEngAmh.Logic
         public override string ToString() => $"q({From}, {Value}) = {To}";
     }
 
-    public class WordProp
+    public class WordPropNoun
     {
         public string WordRule { get; set; }
-        public string TransforedValue { get; set; }
-        public string value { get; set; }
+        public string RootWordPlural { get; set; }
+        public string RootWord { get; set; }
         public string sourceLangValue { get; set; }
         public WordType Type { get; set; }   //  Type; 0 = Regular, 1 = Irregular, 2 = Unchanged
-        //public int number { get; set; } //  0 = singlular, 1 = pulural
+        public Number number { get; set; } //  1 = singlular, 2 = pulural
         public bool selected { get; set; }
         public string PluralForIrregular { get; set; }
         public WordPOSType WordPOSType { get; set; }
+        public Gender Gender { get; set; }
+    }
+    public class WordPropVerb : WordPropNoun
+    {
+        public string IrregularPastVerb { get; internal set; }
+        public string IrregularPPVerb { get; internal set; }
+
+        public string RegularPastVerb { get; internal set; }
+        public string RegularPPVerb { get; internal set; }
+
+        public string PresentParticiple { get; internal set; }
+        public string ThirpPersonSinglular { get; internal set; }
     }
 
 }

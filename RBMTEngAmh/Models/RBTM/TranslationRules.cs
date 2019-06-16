@@ -15,6 +15,6 @@ namespace RBMTEngAmh.Models.RBTM
         [Required]
         public string EnglishRules { get; set; }
         [Required]
-        public string AnharicRules { get; set; }
+        public string AmharicRules { get; set; }
     }
 }

@@ -47,7 +47,7 @@ namespace RBMTEngAmh.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "RuleId,EnglishRules,AnharicRules")] TranslationRules translationRules)
+        public ActionResult Create( TranslationRules translationRules)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace RBMTEngAmh.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "RuleId,EnglishRules,AnharicRules")] TranslationRules translationRules)
+        public ActionResult Edit( TranslationRules translationRules)
         {
             if (ModelState.IsValid)
             {

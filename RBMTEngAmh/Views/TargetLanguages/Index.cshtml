@@ -17,6 +17,9 @@
         <th>
             @Html.DisplayNameFor(model => model.WordType)
         </th>
+        <td>
+            @Html.DisplayNameFor(model => model.Gender)
+        </td>
         <th>
             @Html.DisplayNameFor(model => model.RootWord)
         </th>
@@ -44,6 +47,9 @@
             @Html.DisplayFor(modelItem => item.WordType)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.Gender)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.RootWord)
         </td>
         <td>
@@ -59,9 +65,9 @@
             @Html.DisplayFor(modelItem => item.WordFeeds.RootWord)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TargetLangId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TargetLangId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TargetLangId })
+            @Html.ActionLink("Edit", "Edit", new { id = item.TargetLangId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.TargetLangId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.TargetLangId })
         </td>
     </tr>
 }

@@ -8,12 +8,13 @@ namespace RBMTEngAmh.Models.RBTM
     public enum WordPOSType
     {
         Noun = 1,
+        Pronouns,
         Verb,
         Adjective,
         Adverb,
+        Preposition,
         Conjunction,
-        Disjunction,
-        Preposition
+        Disjunction
     }
     public enum WordType
     {
@@ -21,9 +22,20 @@ namespace RBMTEngAmh.Models.RBTM
         Irregular,
         UnChanged
     }
+    public enum Gender
+    {
+        ForBoth = 1,
+        Male,
+        Female
+    }
     public enum Languages
     {
         English = 1,
         Amharic
+    }
+    public enum Number
+    {
+        Singular = 1,
+        Plural
     }
 }

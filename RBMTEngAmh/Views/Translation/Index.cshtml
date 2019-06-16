@@ -9,7 +9,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Nouns</h4>
+        <h4>English to Amahric Translation</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -21,27 +21,34 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Translate" class="btn btn-default" />
+            </div>
+        </div>
+
         @{
             if (ViewBag.ResultDisplay)
             {
+
                 <div class="form-group">
                     @Html.Label("Source Lang Rule : ", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @ViewBag.SourceLanguageRule
                     </div>
                 </div>
-
-            }
-        }
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Translate" class="btn btn-default" />
-            </div>
-        </div>
-        @{
-            if (ViewBag.ResultDisplay)
-            {
+                <div class="form-group">
+                    @Html.Label("Source Lang Rule : ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @ViewBag.SourceRulesOrder
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Target Lang Rule : ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @ViewBag.TargetRulesOrder
+                    </div>
+                </div>
                 <div class="form-group">
                     @Html.Label("Target Lang Rule : ", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -50,20 +57,19 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-2">
-                        Output Message:
-                    </label>
-
+                    @Html.Label("Re-Ordered Sentences : ", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        <label class="control-label col-sm-2" style="font-style:italic">
-                            <u> @ViewBag.ResultDisplayMessage</u>
-                        </label>
-
-                        @*@Html.Editor("sentences", new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessage("sentences", "", new { @class = "text-danger" })*@
+                        @ViewBag.ReOrderedSentences
                     </div>
                 </div>
 
+                <div class="form-group">
+                    @Html.Label("Output Message : ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @ViewBag.OutPutMessage
+                    </div>
+                </div>
+                
             }
         }
     </div>

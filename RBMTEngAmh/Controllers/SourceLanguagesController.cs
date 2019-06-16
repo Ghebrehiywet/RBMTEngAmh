@@ -47,7 +47,7 @@ namespace RBMTEngAmh.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,WordPOSType,WordType,RootWord,IrregularPluralNoun,IrregularPastVerb,IrregularPPVerb")] WordFeed wordFeed)
+        public ActionResult Create(WordFeed wordFeed)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace RBMTEngAmh.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,WordPOSType,WordType,RootWord,IrregularPluralNoun,IrregularPastVerb,IrregularPPVerb")] WordFeed wordFeed)
+        public ActionResult Edit(WordFeed wordFeed)
         {
             if (ModelState.IsValid)
             {

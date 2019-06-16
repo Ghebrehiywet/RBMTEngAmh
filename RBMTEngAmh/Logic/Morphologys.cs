@@ -107,14 +107,14 @@ namespace RBMTEngAmh.Logic
                 {
                     //string[] list = { word.value, "" };
                     //var machineResponse = machine.Accepts(list);
-                    word.WordRule = word.RootWord + "[N]" + " + [S]";
+                    word.WordRule = word.RootWord + "[N]" + (word.Gender == Gender.Male ? " + [Male] " : (word.Gender == Gender.Female ? " + [Female] " : "")) + " + [S]";
                     word.number = Number.Singular;
                     word.selected = true;
                     break;
                 }
                 else if (word.RootWordPlural == GivenWord)
                 {
-                    word.WordRule = word.RootWord + "[N]" + " + [PL]";
+                    word.WordRule = word.RootWord + "[N]" + (word.Gender == Gender.Male ? " + [Male] " : (word.Gender == Gender.Female ? " + [Female] " : "")) + " + [PL]";
                     word.number = Number.Plural;
                     word.selected = true;
                     break;

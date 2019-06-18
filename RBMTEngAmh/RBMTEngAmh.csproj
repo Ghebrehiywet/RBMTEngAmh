@@ -190,13 +190,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MorphimExtractionController.cs" />
-    <Compile Include="Controllers\ResourcesController.cs" />
-    <Compile Include="Controllers\NounsController.cs" />
     <Compile Include="Controllers\SourceLanguagesController.cs" />
     <Compile Include="Controllers\TargetLanguagesController.cs" />
     <Compile Include="Controllers\TranslationController.cs" />
     <Compile Include="Controllers\TranslationRulesController.cs" />
-    <Compile Include="Controllers\VerbsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -327,23 +324,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Nouns\Create.cshtml" />
-    <Content Include="Views\Nouns\Delete.cshtml" />
-    <Content Include="Views\Nouns\Details.cshtml" />
-    <Content Include="Views\Nouns\Edit.cshtml" />
-    <Content Include="Views\Nouns\Index.cshtml" />
-    <Content Include="Views\Resources\Index.cshtml" />
-    <Content Include="Views\Verbs\Create.cshtml" />
-    <Content Include="Views\Verbs\Delete.cshtml" />
-    <Content Include="Views\Verbs\Details.cshtml" />
-    <Content Include="Views\Verbs\Edit.cshtml" />
-    <Content Include="Views\Verbs\Index.cshtml" />
     <Content Include="Views\MorphimExtraction\Index.cshtml" />
-    <Content Include="Views\WordFeeds\Create.cshtml" />
-    <Content Include="Views\WordFeeds\Delete.cshtml" />
-    <Content Include="Views\WordFeeds\Details.cshtml" />
-    <Content Include="Views\WordFeeds\Edit.cshtml" />
-    <Content Include="Views\WordFeeds\Index.cshtml" />
     <Content Include="Views\SourceLanguages\Create.cshtml" />
     <Content Include="Views\SourceLanguages\Delete.cshtml" />
     <Content Include="Views\SourceLanguages\Details.cshtml" />

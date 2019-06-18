@@ -3,7 +3,57 @@
 @{
     ViewBag.Title = "Edit";
 }
+<script type="text/javascript">
 
+    $(document).ready(function () {
+        $("select[name='WordPOSType']").change(function () {
+            var selectedVal = $(this).val();
+            if (selectedVal == 1) {
+                $("#IrregularPluralNounDiv").show();
+
+                $("#IrregularPastVerbDiv").hide();
+                $("#IrregularPPVerbDiv").hide();
+            }
+            else if (selectedVal == 3) {
+                $("#IrregularPastVerbDiv").show();
+                $("#IrregularPPVerbDiv").show();
+
+                $("#IrregularPluralNounDiv").hide();
+            }
+            else {
+                $("#IrregularPastVerbDiv").hide();
+                $("#IrregularPPVerbDiv").hide();
+
+                $("#IrregularPluralNounDiv").hide();
+            }
+        });
+
+
+        $("select[name='WordType']").change(function () {
+            var selectedVal = $(this).val();
+            var pos = $('#WordPOSType').val();
+            if (selectedVal == 1) {
+                if (pos == 1) {
+                    $("#IrregularPluralNounDiv").hide();
+                }
+                else if (pos == 3) {
+                    $("#IrregularPastVerbDiv").hide();
+                    $("#IrregularPPVerbDiv").hide();
+                }
+            }
+            else {
+                if (pos == 1) {
+                    $("#IrregularPluralNounDiv").show();
+                } else if (pos == 3) {
+                    $("#IrregularPastVerbDiv").show();
+                    $("#IrregularPPVerbDiv").show();
+                }
+            }
+        });
+
+    });
+
+</script>
 <h2>Edit</h2>
 
 @using (Html.BeginForm())
@@ -48,7 +98,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="IrregularPluralNounDiv">
             @Html.LabelFor(model => model.IrregularPluralNoun, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.IrregularPluralNoun, new { htmlAttributes = new { @class = "form-control" } })
@@ -56,7 +106,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="IrregularPastVerbDiv">
             @Html.LabelFor(model => model.IrregularPastVerb, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.IrregularPastVerb, new { htmlAttributes = new { @class = "form-control" } })
@@ -64,7 +114,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="IrregularPPVerbDiv">
             @Html.LabelFor(model => model.IrregularPPVerb, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.IrregularPPVerb, new { htmlAttributes = new { @class = "form-control" } })

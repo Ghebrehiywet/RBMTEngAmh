@@ -24,7 +24,7 @@ namespace RBMTEngAmh.Models.RBTM
     }
     public enum Gender
     {
-        ForBoth = 1,
+        ForBoth = 0,
         Male,
         Female
     }

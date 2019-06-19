@@ -11,55 +11,108 @@
 
         $("select[name='WordPOSType']").change(function () {
             var selectedVal = $(this).val();
-            if (selectedVal == 1) {
-                $("#IrregularPluralNounDiv").show();
-                $("#IrregularPastVerbDiv").hide();
-                $("#IrregularPPVerbDiv").hide();
+            if (selectedVal == "Noun") {
+                NounSelected();
             }
-            else if (selectedVal == 3) {
-                $("#IrregularPastVerbDiv").show();
-                $("#IrregularPPVerbDiv").show();
-                $("#IrregularPluralNounDiv").hide();
+            else if (selectedVal == "Verb") {
+                VerbSelected();
             }
             else {
-                $("#IrregularPastVerbDiv").hide();
-                $("#IrregularPPVerbDiv").hide();
-                $("#IrregularPluralNounDiv").hide();
+                OtherSelected();
             }
-
             $("#WordType").val('');
         });
-
 
         $("select[name='WordType']").change(function () {
             var selectedVal = $(this).val();
             var pos = $('#WordPOSType').val();
-            if (selectedVal == 1) {
-                if (pos == 1) {
-                    $("#IrregularPluralNounDiv").hide();
+            if (selectedVal == "Regular") {
+                if (pos == "Noun") {
+                    RegularNoun();
                 }
-                else if (pos == 3) {
-                    $("#IrregularPastVerbDiv").hide();
-                    $("#IrregularPPVerbDiv").hide();
+                else if (pos == "Verb") {
+                    RegularVerb();
                 }
             }
             else {
-                if (pos == 1) {
-                    $("#IrregularPluralNounDiv").show();
-                } else if (pos == 3) {
-                    $("#IrregularPastVerbDiv").show();
-                    $("#IrregularPPVerbDiv").show();
+                if (pos == "Noun") {
+                    IrregularNoun();
+                } else if (pos == "Verb") {
+                    IrregularVerb();
                 }
             }
+            // alert(selectedVal+pos);
+
         });
 
+        var posType = $("select[name='WordPOSType']").val();
+        var wordType = $("select[name='WordType']").val();
+
+        if (posType != "") {
+            if (posType == "Noun") {
+                NounSelected();
+            }
+            else if (posType == "Verb") {
+                VerbSelected();
+            }
+            else {
+                OtherSelected();
+            }
+        }
+        if (wordType != null) {
+            if (wordType == "Regular") {
+                if (posType == "Noun") {
+                    RegularNoun();
+                }
+                else if (posType == "Verb") {
+                    RegularVerb();
+                }
+            }
+            else {
+                if (posType == "Noun") {
+                    IrregularNoun();
+                } else if (posType == "Verb") {
+                    IrregularVerb();
+                }
+            }
+        }
     });
+
+    function IrregularNoun() {
+        $("#IrregularPluralNounDiv").show();
+    }
+    function IrregularVerb(){
+        $("#IrregularPastVerbDiv").show();
+        $("#IrregularPPVerbDiv").show();
+    }
+    function RegularNoun() {
+        $("#IrregularPluralNounDiv").hide();
+    }
+    function RegularVerb(){
+        $("#IrregularPastVerbDiv").hide();
+        $("#IrregularPPVerbDiv").hide();
+    }
+    function NounSelected() {
+        $("#IrregularPluralNounDiv").show();
+        $("#IrregularPastVerbDiv").hide();
+        $("#IrregularPPVerbDiv").hide();
+    }
+    function VerbSelected() {
+        $("#IrregularPastVerbDiv").show();
+        $("#IrregularPPVerbDiv").show();
+        $("#IrregularPluralNounDiv").hide();
+    }
+    function OtherSelected() {
+        $("#IrregularPastVerbDiv").hide();
+        $("#IrregularPPVerbDiv").hide();
+        $("#IrregularPluralNounDiv").hide();
+    }
 
 </script>
 
 
 
-<h2>Create</h2>
+<h2>Create Source Languages (English) POS</h2>
 
 @using (Html.BeginForm())
 {

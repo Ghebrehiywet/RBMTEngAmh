@@ -192,44 +192,6 @@ namespace RBMTEngAmh.Logic
 
                     machine.Add("Q2", "Q3", presentParticipleValues[0]);
 
-
-                    //if (word.RootWord.Length >= 3)
-                    //{//  CVC
-                    //    if (!Constants.Vowel.Contains(word.RootWord.ElementAt(word.RootWord.Length - 3)) &&
-                    //        Constants.Vowel.Contains(word.RootWord.ElementAt(word.RootWord.Length - 2)) &&
-                    //        !Constants.Vowel.Contains(word.RootWord.Last()))
-                    //    {
-                    //        word.ThirpPersonSinglular = word.RootWord + thridPersonValues[0];
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    word.ThirpPersonSinglular = word.RootWord + thridPersonValues[0];
-                    //}
-
-
-                    ////  Ends with y, y is changed to -i and appends -es
-                    //if (word.RootWord.Last().Equals('y'))
-                    //{
-                    //    machine.Add("Q1", "Q3", repPastTensValues[2]);
-                    //    word.TransforedValue = word.RootWord.Substring(0, word.RootWord.Length - 1) + repPastTensValues[2];
-                    //}
-                    ////  Ends with ch, s appends -es
-                    //else if (word.RootWord.Substring(word.RootWord.Length - 2).Equals("ch") || word.RootWord.Last().Equals('s'))
-                    //{
-                    //    machine.Add("Q1", "Q3", repPastTensValues[1]);
-                    //    word.TransforedValue = word.RootWord + repPastTensValues[1];
-                    //}
-                    ////  appends -s for all regular nouns
-                    //else
-                    //{
-                    //    machine.Add("Q1", "Q3", repPastTensValues[0]);
-                    //    word.TransforedValue = word.RootWord + repPastTensValues[0];
-
-                    //    machine.Add("Q2", "Q3", presentParticipleValues[0]);
-                    //    word.TransforedValue = word.RootWord + presentParticipleValues[0];
-                    //}
-
                 }
                 else if (word.Type == WordType.Irregular)  //Irregular
                 {
@@ -331,6 +293,8 @@ namespace RBMTEngAmh.Logic
         }
         public TargetWordFeed AmharicMorphology4Verbs(string GivenWord)
         {
+            var verbs2 = this._db.TargetWordFeed.Include(x => x.WordFeeds).ToList();
+            var verbs1 = this._db.TargetWordFeed.Include(x => x.WordFeeds).Where(item => item.WordPOSType == WordPOSType.Verb)?.FirstOrDefault();
             var verbs = this._db.TargetWordFeed.Include(x => x.WordFeeds).Where(item => item.WordPOSType == WordPOSType.Verb && item.WordFeeds.RootWord == GivenWord)?.FirstOrDefault();
             return verbs;
         }

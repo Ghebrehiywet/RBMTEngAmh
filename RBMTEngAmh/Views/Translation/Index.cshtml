@@ -32,7 +32,7 @@
             {
 
                 <div class="form-group">
-                    @Html.Label("Source Lang Rule : ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.Label("Source Lang Morphim : ", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @ViewBag.SourceLanguageRule
                     </div>
@@ -43,14 +43,14 @@
                         @ViewBag.SourceRulesOrder
                     </div>
                 </div>
-                <div class="form-group">
+                @*<div class="form-group">
                     @Html.Label("Target Lang Rule : ", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @ViewBag.TargetRulesOrder
                     </div>
-                </div>
+                </div>*@
                 <div class="form-group">
-                    @Html.Label("Target Lang Rule : ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.Label("Target Lang Morphiim : ", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @ViewBag.TargetLanguageRule
                     </div>
@@ -64,7 +64,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.Label("Output Message : ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.Label("Translated Result : ", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @ViewBag.OutPutMessage
                     </div>
@@ -75,9 +75,7 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

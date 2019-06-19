@@ -280,9 +280,12 @@ namespace RBMTEngAmh.Controllers
                             //amharicMorphology.Translated = amharicMorphology4Verbs.RootWord;
                         }
 
-                        amharicMorphology4Verbs.WordRule = ((amharicMorphology4Verbs != null) ? verbs.WordRule.Replace(verbs.RootWord, amharicMorphology4Verbs?.RootWord ?? "") : verbs.WordRule);
-                        targetLanguageRule += amharicMorphology4Verbs.WordRule + "*";
-                        amharicMorphology.WordRule = amharicMorphology4Verbs.WordRule;
+                        if (amharicMorphology4Verbs != null)
+                        {
+                            amharicMorphology4Verbs.WordRule = ((amharicMorphology4Verbs != null) ? verbs.WordRule.Replace(verbs.RootWord, amharicMorphology4Verbs?.RootWord ?? "") : verbs.WordRule);
+                            targetLanguageRule += amharicMorphology4Verbs.WordRule + "*";
+                            amharicMorphology.WordRule = amharicMorphology4Verbs.WordRule;
+                        }
 
                         var indxofOpening = verbs.WordRule.IndexOf('[');
                         var indxofClosing = verbs.WordRule.IndexOf(']');

@@ -189,7 +189,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\MorphimExtractionController.cs" />
     <Compile Include="Controllers\SourceLanguagesController.cs" />
     <Compile Include="Controllers\TargetLanguagesController.cs" />
     <Compile Include="Controllers\TranslationController.cs" />
@@ -250,6 +249,10 @@
     <Compile Include="Migrations\201906121528108_migrant5.cs" />
     <Compile Include="Migrations\201906121528108_migrant5.Designer.cs">
       <DependentUpon>201906121528108_migrant5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906181902546_migrant6.cs" />
+    <Compile Include="Migrations\201906181902546_migrant6.Designer.cs">
+      <DependentUpon>201906181902546_migrant6.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -325,7 +328,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\MorphimExtraction\Index.cshtml" />
     <Content Include="Views\SourceLanguages\Create.cshtml" />
     <Content Include="Views\SourceLanguages\Delete.cshtml" />
     <Content Include="Views\SourceLanguages\Details.cshtml" />
@@ -398,6 +400,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906121528108_migrant5.resx">
       <DependentUpon>201906121528108_migrant5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906181902546_migrant6.resx">
+      <DependentUpon>201906181902546_migrant6.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

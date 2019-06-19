@@ -30,8 +30,8 @@ namespace RBMTEngAmh.Models
         {
             return new ApplicationDbContext();
         }
-        public DbSet<Nouns> nouns { get; set; }
-        public DbSet<Verbs> verbs { get; set; }
+        //public DbSet<Nouns> nouns { get; set; }
+        //public DbSet<Verbs> verbs { get; set; }
 
         public DbSet<WordFeed> SourceWordFeeds { get; set; }
         public DbSet<TargetWordFeed> TargetWordFeed { get; set; }
